@@ -5,8 +5,8 @@ import { Debugger } from 'electron';
 // initial state
 const state = () => ({
     typeList: [],
-    type1: { price: 0 },
-    type2: { price: 0 }
+    type1: { price: -1 },
+    type2: { price: -1 }
 })
 
 // getters
@@ -63,7 +63,7 @@ const actions = {
                 data.forEach(item => {
                     var id = v.sprintf('%s_%s', item.symbol, getTypeAbbr(item.contract_type));
                     var name = v.sprintf('%s（%s）- %s', item.symbol, getTypeName(item.contract_type), item.delivery_date);
-                    let type = { "id": id, "name": name, "symbol": item.symbol }
+                    let type = { "id": id, "name": name, "symbol": item.symbol, "end": item.delivery_time }
                     typeList.push(type)
                 });
                 commit('setTypeList', typeList)
@@ -86,7 +86,7 @@ const actions = {
             .then(function (response) {
                 let tick = response.data.tick;
 
-                commit('setPrice', { "type": 1, "id": request.type2, "price": tick.close })
+                commit('setPrice', { "type": 2, "id": request.type2, "price": tick.close })
             })
             .catch(function (error) {
                 console.log(error);
@@ -100,7 +100,7 @@ const mutations = {
         state.typeList = typeList;
     },
     setPrice(state, data) {
-        let type = state.typeList.filter(s => s.id == data.id);
+        let type = state.typeList.filter(s => s.id == data.id)[0];
         type.price = data.price
         state["type" + data.type] = type
     }

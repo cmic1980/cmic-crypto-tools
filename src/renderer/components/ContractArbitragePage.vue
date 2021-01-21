@@ -33,6 +33,7 @@
         <el-button type="primary" plain @click="compare()">Go</el-button>
       </el-form-item>
     </el-form>
+    {{ message }}
   </div>
 </template>
 
@@ -74,6 +75,33 @@ export default {
   computed: {
     ...mapState({
       typeList: (state) => state.contract.typeList,
+      message: (state) => {
+        let result = "";
+        if (
+          state.contract.type1.price != -1 &&
+          state.contract.type2.price != -1
+        ) {
+          debugger;
+          let t1 = state.contract.type1;
+          let t2 = state.contract.type2;
+          let benefits = (t2.price / t1.price - 1) * 100;
+          let days = parseInt(t2.end - t1.end) / 1000 / 60 / 60 / 24;
+          let benefitsOneDay = benefits*365 / days;
+          benefits = benefits + "%";
+          benefitsOneDay = benefitsOneDay + "%";
+
+          result = v.sprintf(
+            "%s: %s - %s: %s 利润: %s 年化利润: %s",
+            t1.id,
+            t1.price,
+            t2.id,
+            t2.price,
+            benefits,
+            benefitsOneDay
+          );
+        }
+        return result;
+      },
     }),
   },
   created() {
