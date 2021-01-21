@@ -1,14 +1,55 @@
-import { getInfo } from '@/api/huobi/contract'
+import { getInfo, getDetail } from '@/api/huobi/contract'
+import { Debugger } from 'electron';
 
 
 // initial state
 const state = () => ({
-    symbolList: [],
-    contractTypeList: []
+    typeList: [],
+    type1: { price: 0 },
+    type2: { price: 0 }
 })
 
 // getters
 const getters = {}
+
+function getTypeAbbr(contractType) {
+    let abbr = "";
+    switch (contractType) {
+        case "this_week":
+            abbr = "CW";
+            break;
+        case "next_week":
+            abbr = "NW";
+            break;
+        case "quarter":
+            abbr = "CQ";
+            break;
+        case "next_quarter":
+            abbr = "NQ";
+            break;
+    }
+    return abbr;
+}
+
+function getTypeName(contractType) {
+    let abbr = "";
+    switch (contractType) {
+        case "this_week":
+            abbr = "当周";
+            break;
+        case "next_week":
+            abbr = "次周";
+            break;
+        case "quarter":
+            abbr = "当季";
+            break;
+        case "next_quarter":
+            abbr = "次季";
+            break;
+    }
+    return abbr;
+}
+
 
 // actions
 const actions = {
@@ -17,51 +58,51 @@ const actions = {
             .then(function (response) {
                 let data = response.data.data;
 
-                let symbolList = [];
-                let dict = {}
-
+                let typeList = [];
                 // distinct symbol
                 data.forEach(item => {
-                    let id = item.symbol
-
-                    let symbol = dict[id]
-                    if (symbol == null) {
-                        symbol = { "id": id, "contractTypeList": [] }
-                    }
-
-                    let contractType = { "id": item.contract_type }
-                    symbol.contractTypeList.push(contractType)
-
-                    dict[id] = symbol
+                    var id = v.sprintf('%s_%s', item.symbol, getTypeAbbr(item.contract_type));
+                    var name = v.sprintf('%s（%s）- %s', item.symbol, getTypeName(item.contract_type), item.delivery_date);
+                    let type = { "id": id, "name": name, "symbol": item.symbol }
+                    typeList.push(type)
                 });
-
-                for (let id in dict) {
-                    let symbol = dict[id]
-                    symbolList.push(symbol)
-                }
-                commit('setSymbolList', symbolList)
+                commit('setTypeList', typeList)
             })
             .catch(function (error) {
                 console.log(error);
             });
     },
-    getContractTypeListBySymbol({ commit }, symbol) {
-        commit('setContractTypeList', symbol)
+    compare({ commit }, request) {
+        getDetail(request.type1)
+            .then(function (response) {
+                let tick = response.data.tick;
+                commit('setPrice', { "type": 1, "id": request.type1, "price": tick.close })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        getDetail(request.type2)
+            .then(function (response) {
+                let tick = response.data.tick;
+
+                commit('setPrice', { "type": 1, "id": request.type2, "price": tick.close })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 }
 
 // mutations
 const mutations = {
-    setSymbolList(state, symbolList) {
-        state.symbolList = symbolList;
+    setTypeList(state, typeList) {
+        state.typeList = typeList;
     },
-    setContractTypeList(state, symbol) {
-        state.symbolList.forEach(item => {
-            if (item.id == symbol) {
-                state.contractTypeList = item.contractTypeList;
-            }
-        });
-
+    setPrice(state, data) {
+        let type = state.typeList.filter(s => s.id == data.id);
+        type.price = data.price
+        state["type" + data.type] = type
     }
 }
 
