@@ -12,9 +12,15 @@
           v-model="data.symbol"
           placeholder="Symbol"
           style="width: 100%"
+          @change="symbolChange()"
         >
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+          <el-option
+            v-for="item in symbolList"
+            :key="item.id"
+            :label="item.id"
+            :value="item.id"
+          >
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="Contract">
@@ -23,8 +29,13 @@
           placeholder="Contract"
           style="width: 100%"
         >
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+          <el-option
+            v-for="item in contractTypeList"
+            :key="item.id"
+            :label="item.id"
+            :value="item.id"
+          >
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -35,6 +46,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "contract-arbitrage-page",
   data() {
@@ -42,13 +55,27 @@ export default {
       data: {
         symbol: "",
         contract: "",
-      },
+      }
     };
   },
   methods: {
-    test() {
-      this.$store.dispatch("contract/get");
+    symbolChange() {
+
+      this.$store.dispatch(
+        "contract/getContractTypeListBySymbol",
+        this.data.symbol
+      );
+      
     },
+  },
+  computed: {
+    ...mapState({
+      symbolList: (state) => state.contract.symbolList,
+      contractTypeList: (state) => state.contract.contractTypeList,
+    }),
+  },
+  created() {
+    this.$store.dispatch("contract/getInfo");
   },
 };
 </script>

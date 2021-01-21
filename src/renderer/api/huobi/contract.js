@@ -1,9 +1,6 @@
-import request from '@/utils/request'
+import axios from 'axios'
 
-export function getInfo(data) {
-    return request({
-        url: 'https://api.hbdm.com/api/v1/contract_contract_info',
-        method: 'get'
-    })
+export function getInfo() {
+    return axios.get('https://api.hbdm.com/api/v1/contract_contract_info');
 }
 
