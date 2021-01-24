@@ -1,5 +1,6 @@
-import { getInfo, getDetail } from '@/api/huobi/contract'
-import { Debugger } from 'electron';
+// import { getInfo, getDetail } from '@/api/huobi/contract'
+import contract from '@/api/huobi/contract'
+import market from '@/api/huobi/market'
 
 
 // initial state
@@ -11,6 +12,12 @@ const state = () => ({
 
 // getters
 const getters = {}
+
+let supportSymbolSet = new Set()
+supportSymbolSet.add("BTC")
+supportSymbolSet.add("ETH")
+supportSymbolSet.add("EOS")
+
 
 function getTypeAbbr(contractType) {
     let abbr = "";
@@ -54,17 +61,32 @@ function getTypeName(contractType) {
 // actions
 const actions = {
     getInfo({ commit }) {
-        getInfo()
+        contract.getInfo()
             .then(function (response) {
                 let data = response.data.data;
+
 
                 let typeList = [];
                 // distinct symbol
                 data.forEach(item => {
-                    var id = v.sprintf('%s_%s', item.symbol, getTypeAbbr(item.contract_type));
-                    var name = v.sprintf('%s（%s）- %s', item.symbol, getTypeName(item.contract_type), item.delivery_date);
-                    let type = { "id": id, "name": name, "symbol": item.symbol, "end": item.delivery_time }
-                    typeList.push(type)
+                    if(supportSymbolSet.has(item.symbol))
+                    {
+                        // 期货当周前加上现货
+                        if(getTypeAbbr(item.contract_type)=="CW")
+                        {
+                            let id = v.sprintf('%susdt', v.lowerCase(item.symbol));
+                            let name = v.sprintf('%s（现货）', item.symbol);
+                            var date= new Date();
+                            let type = { "id": id, "name": name, "symbol": item.symbol, "end": date.getTime() }
+                            typeList.push(type)
+                        }
+
+                        let id = v.sprintf('%s_%s', item.symbol, getTypeAbbr(item.contract_type));
+                        let name = v.sprintf('%s（%s）', item.symbol, getTypeName(item.contract_type));
+                        let type = { "id": id, "name": name, "symbol": item.symbol, "end": item.delivery_time }
+                        typeList.push(type)
+                    }
+
                 });
                 commit('setTypeList', typeList)
             })
@@ -73,7 +95,9 @@ const actions = {
             });
     },
     compare({ commit }, request) {
-        getDetail(request.type1)
+        if(v.endsWith(request.type1, 'usdt')) // usdt结尾现货 
+        {
+            market.getDetail(request.type1)
             .then(function (response) {
                 let tick = response.data.tick;
                 commit('setPrice', { "type": 1, "id": request.type1, "price": tick.close })
@@ -81,8 +105,19 @@ const actions = {
             .catch(function (error) {
                 console.log(error);
             });
+        }else{
+            contract.getDetail(request.type1)
+            .then(function (response) {
+                let tick = response.data.tick;
+                commit('setPrice', { "type": 1, "id": request.type1, "price": tick.close })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
 
-        getDetail(request.type2)
+
+        contract.getDetail(request.type2)
             .then(function (response) {
                 let tick = response.data.tick;
 

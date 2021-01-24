@@ -7,6 +7,8 @@
       label-width="80px"
       id="form"
     >
+      <el-form-item label="合约套利">
+      </el-form-item>
       <el-form-item label="品种 1">
         <el-select v-model="data.type1" style="width: 100%">
           <el-option
@@ -38,6 +40,7 @@
 </template>
 
 <script>
+
 import { mapState } from "vuex";
 
 export default {
@@ -62,7 +65,7 @@ export default {
 
       if (v.isEmpty(this.data.type2)) {
         this.$message({
-          message: "请选择品种1",
+          message: "请选择品种2",
           type: "warning",
         });
         return;
@@ -81,20 +84,19 @@ export default {
           state.contract.type1.price != -1 &&
           state.contract.type2.price != -1
         ) {
-          debugger;
           let t1 = state.contract.type1;
           let t2 = state.contract.type2;
           let benefits = (t2.price / t1.price - 1) * 100;
           let days = parseInt(t2.end - t1.end) / 1000 / 60 / 60 / 24;
-          let benefitsOneDay = benefits*365 / days;
+          let benefitsOneDay = (benefits * 365) / days;
           benefits = benefits + "%";
           benefitsOneDay = benefitsOneDay + "%";
 
           result = v.sprintf(
-            "%s: %s - %s: %s 利润: %s 年化利润: %s",
-            t1.id,
+            "1. %s: %s ->>> %s: %s; 2. 利润: %s; 3. 年化利润: %s",
+            t1.name,
             t1.price,
-            t2.id,
+            t2.name,
             t2.price,
             benefits,
             benefitsOneDay
@@ -113,5 +115,8 @@ export default {
 <style scoped>
 #form {
   width: 500px;
+}
+#title {
+  margin: 10px;
 }
 </style>
