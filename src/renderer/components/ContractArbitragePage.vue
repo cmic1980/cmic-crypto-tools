@@ -33,6 +33,8 @@
       <el-form-item>
         <el-button type="primary" plain @click="compare()">运行</el-button>
         <el-button type="primary" plain @click="back()">返回</el-button>
+
+        <el-button type="primary" plain @click="backtest()">回测</el-button>
       </el-form-item>
     </el-form>
     {{ message }}
@@ -74,7 +76,10 @@ export default {
       this.$store.dispatch("contract/compare", request);
     },
     back() {
-      this.$store.back();
+      this.$router.back();
+    },
+    backtest() {      
+
     },
   },
   computed: {
