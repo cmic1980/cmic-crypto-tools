@@ -7,8 +7,7 @@
       label-width="80px"
       id="form"
     >
-      <el-form-item label="合约套利">
-      </el-form-item>
+      <el-form-item label="合约套利"> </el-form-item>
       <el-form-item label="品种 1">
         <el-select v-model="data.type1" style="width: 100%">
           <el-option
@@ -32,7 +31,8 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" plain @click="compare()">Go</el-button>
+        <el-button type="primary" plain @click="compare()">运行</el-button>
+        <el-button type="primary" plain @click="back()">返回</el-button>
       </el-form-item>
     </el-form>
     {{ message }}
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-
 import { mapState } from "vuex";
 
 export default {
@@ -74,6 +73,9 @@ export default {
       let request = { type1: this.data.type1, type2: this.data.type2 };
       this.$store.dispatch("contract/compare", request);
     },
+    back() {
+      this.$store.back();
+    },
   },
   computed: {
     ...mapState({
@@ -86,20 +88,24 @@ export default {
         ) {
           let t1 = state.contract.type1;
           let t2 = state.contract.type2;
-          let benefits = (t2.price / t1.price - 1) * 100;
+          let grossProfit = (t2.price / t1.price - 1) * 100;
           let days = parseInt(t2.end - t1.end) / 1000 / 60 / 60 / 24;
-          let benefitsOneDay = (benefits * 365) / days;
-          benefits = benefits + "%";
-          benefitsOneDay = benefitsOneDay + "%";
+          let netProfit = grossProfit - 0.04 - 0.015;
+          let yearlyProfit = (netProfit * 365) / days;
+
+          grossProfit = grossProfit + "%";
+
+          yearlyProfit = yearlyProfit + "%";
 
           result = v.sprintf(
-            "1. %s: %s ->>> %s: %s; 2. 利润: %s; 3. 年化利润: %s",
+            "1. %s: %s ->>> %s: %s; 2. 毛利润: %s; 3. 到期净利润: %s; 4. 年化到期净利润: %s",
             t1.name,
             t1.price,
             t2.name,
             t2.price,
-            benefits,
-            benefitsOneDay
+            grossProfit,
+            netProfit,
+            yearlyProfit
           );
         }
         return result;
