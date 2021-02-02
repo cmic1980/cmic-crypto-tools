@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/renderer/api/huobi/market.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/api/huobi/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/api/huobi/contract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/components/ContractArbitragePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/components/ContractArbitragePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" afterDir="false" />
-    </list>
+    <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +133,7 @@
       <workItem from="1611205565356" duration="2366000" />
       <workItem from="1611495480703" duration="648000" />
       <workItem from="1612182204586" duration="389000" />
-      <workItem from="1612188421173" duration="3468000" />
+      <workItem from="1612188421173" duration="3508000" />
     </task>
     <task id="LOCAL-00001" summary="store">
       <created>1611205619453</created>
@@ -192,15 +184,21 @@
       <option name="project" value="LOCAL" />
       <updated>1612182214424</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="symbol and contract list">
+      <created>1612196825819</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1612196825819</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7187000" />
+    <option name="totallyTimeSpent" value="7227000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1734" height="1407" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26164874" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

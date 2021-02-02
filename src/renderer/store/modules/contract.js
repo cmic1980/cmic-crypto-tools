@@ -7,9 +7,12 @@ import market from '@/api/huobi/market'
 // initial state
 const state = () => ({
     typeList: [],
-    type1: { price: -1, expireList: [] },
-    type2: { price: -1, expireList: [] }
-    
+    type1: { price: -1 },
+    type2: { price: -1 },
+    expireList1: [],
+    expireList2: [],
+    klineList1: [],
+    klineList2: []
 })
 
 // getters
@@ -69,12 +72,19 @@ function getExpireList(klineList) {
         const day = date.getDay();
         const hours = date.getHours();
         if (day == 4 && hours == 16) {
-            const expire = { "open": s.open }
+            const json = JSON.stringify(s);
+            const expire = JSON.parse(json)
             expireList.push(expire)
         }
     });
     return expireList;
 }
+
+function enhanceTfK(kline) {
+    let type = { "name": name, "symbol": item.symbol, "time": date.getTime() }
+    return type
+}
+
 
 // actions
 const actions = {
@@ -93,13 +103,15 @@ const actions = {
                             let id = v.sprintf('%susdt', v.lowerCase(item.symbol));
                             let name = v.sprintf('%s（现货）', item.symbol);
                             var date = new Date();
-                            let type = { "id": id, "name": name, "symbol": item.symbol, "end": date.getTime() }
+
+                            let type = { "id": id, "name": name, "symbol": item.symbol, "time": date.getTime() }
                             typeList.push(type)
                         }
 
                         let id = v.sprintf('%s_%s', item.symbol, getTypeAbbr(item.contract_type));
                         let name = v.sprintf('%s（%s）', item.symbol, getTypeName(item.contract_type));
-                        let type = { "id": id, "name": name, "symbol": item.symbol, "end": item.delivery_time }
+                        let type = { "id": id, "name": name, "symbol": item.symbol, "time": item.delivery_time }
+
                         typeList.push(type)
                     }
 
@@ -118,12 +130,25 @@ const actions = {
             market.getDetail(request.type1)
                 .then(function (response) {
                     let tick = response.data.tick;
+
                     commit('setPrice', { "type": 1, "id": request.type1, "price": tick.close })
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-            
+
+            market.getKline('60min', '2000', request.type1)
+                .then(function (response) {
+                    const klineList = response.data.data;
+                    klineList.forEach(s => { s.name = request.type1; s.time = s.id*1000; s.price = s.close; })
+                    const expireList = getExpireList(klineList);
+                    commit('setKlineList', { "type": 1, "id": request.type1, "klineList": klineList })
+                    commit('setExpireList', { "type": 1, "id": request.type1, "expireList": expireList })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         } else {
             contract.getDetail(request.type1)
                 .then(function (response) {
@@ -138,7 +163,9 @@ const actions = {
             contract.getKline('60min', '2000', request.type2)
                 .then(function (response) {
                     const klineList = response.data.data;
+                    klineList.forEach(s => { s.name = request.type1; s.time = s.id*1000; s.price = s.close; })
                     const expireList = getExpireList(klineList);
+                    commit('setKlineList', { "type": 1, "id": request.type1, "klineList": klineList })
                     commit('setExpireList', { "type": 1, "id": request.type1, "expireList": expireList })
                 })
                 .catch(function (error) {
@@ -161,7 +188,9 @@ const actions = {
         contract.getKline('60min', '2000', request.type2)
             .then(function (response) {
                 const klineList = response.data.data;
+                klineList.forEach(s => { s.name = request.type1; s.time = s.id*1000; s.price = s.close; })
                 const expireList = getExpireList(klineList);
+                commit('setKlineList', { "type": 2, "id": request.type2, "klineList": klineList })
                 commit('setExpireList', { "type": 2, "id": request.type2, "expireList": expireList })
             })
             .catch(function (error) {
@@ -181,10 +210,11 @@ const mutations = {
         state["type" + data.type] = type
     },
     setExpireList(state, data) {
+        state["expireList" + data.type] = data.expireList
+    },
+    setKlineList(state, data) {
         debugger
-        let type = state.typeList.filter(s => s.id == data.id)[0];
-        type.expireList = data.expireList
-        state["type" + data.type] = type
+        state["klineList" + data.type] = data.klineList
     }
 }
 

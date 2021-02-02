@@ -37,12 +37,19 @@
         <el-button type="primary" plain @click="backtest()">回测</el-button>
       </el-form-item>
     </el-form>
-    {{ message }}
+    <div>
+      {{ message }}
+    </div>
+    <div  v-for="item in klineListMessage"
+            :key="item">
+      {{ item }}
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import contractService from "@/service/contract";
 
 export default {
   name: "contract-arbitrage-page",
@@ -78,9 +85,7 @@ export default {
     back() {
       this.$router.back();
     },
-    backtest() {      
-
-    },
+    backtest() {},
   },
   computed: {
     ...mapState({
@@ -91,29 +96,42 @@ export default {
           state.contract.type1.price != -1 &&
           state.contract.type2.price != -1
         ) {
-          let t1 = state.contract.type1;
-          let t2 = state.contract.type2;
-          let grossProfit = (t2.price / t1.price - 1) * 100;
-          let days = parseInt(t2.end - t1.end) / 1000 / 60 / 60 / 24;
-          let netProfit = grossProfit - 0.04 - 0.015;
-          let yearlyProfit = (netProfit * 365) / days;
-
-          grossProfit = grossProfit + "%";
-
-          yearlyProfit = yearlyProfit + "%";
+          let r = contractService.calculate(
+            state.contract.type1,
+            state.contract.type2
+          );
 
           result = v.sprintf(
             "1. %s: %s ->>> %s: %s; 2. 毛利润: %s; 3. 到期净利润: %s; 4. 年化到期净利润: %s",
-            t1.name,
-            t1.price,
-            t2.name,
-            t2.price,
-            grossProfit,
-            netProfit,
-            yearlyProfit
+            r.t1Name,
+            r.t1Price,
+            r.t2Name,
+            r.t2Price,
+            r.grossProfit,
+            r.netProfit,
+            r.yearlyProfit
           );
         }
         return result;
+      },
+
+      klineListMessage: (state) => {
+        let list = [];
+        if (
+          state.contract.klineList1.length != 0 &&
+          state.contract.klineList2.length != 0
+        ) {
+          const l = state.contract.klineList1.length;
+
+          for (let i = 0; i < l; i++) {
+            let kline1 = state.contract.klineList1[i];
+            let kline2 = state.contract.klineList2[i];
+            let r = contractService.calculate(kline1, kline2);
+        
+            list.push(r);
+          }
+        }
+        return list;
       },
     }),
   },
