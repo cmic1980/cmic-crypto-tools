@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="" />
+    <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/components/ContractArbitragePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/components/ContractArbitragePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/service/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/service/contract.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,12 +17,12 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/1.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="802">
-              <caret line="1857" column="12" selection-start-line="1857" selection-start-column="6" selection-end-line="1857" selection-end-column="12" />
+            <state relative-caret-position="308">
+              <caret line="1831" column="55" selection-start-line="1831" selection-start-column="55" selection-end-line="1831" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -45,6 +50,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -91,12 +97,18 @@
               <item name="renderer" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="cmic-crypto-tools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cmic-crypto-tools" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="renderer" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -134,6 +146,8 @@
       <workItem from="1611495480703" duration="648000" />
       <workItem from="1612182204586" duration="389000" />
       <workItem from="1612188421173" duration="3508000" />
+      <workItem from="1612284086720" duration="73000" />
+      <workItem from="1613134128018" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="store">
       <created>1611205619453</created>
@@ -191,16 +205,24 @@
       <option name="project" value="LOCAL" />
       <updated>1612196825819</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="symbol and contract list">
+      <created>1612284117726</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1612284117726</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7227000" />
+    <option name="totallyTimeSpent" value="7899000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1734" height="1407" extended-state="0" />
+    <frame x="-7" y="0" width="1734" height="1407" extended-state="1" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26164874" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26762247" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -241,8 +263,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/1.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="802">
-          <caret line="1857" column="12" selection-start-line="1857" selection-start-column="6" selection-end-line="1857" selection-end-column="12" />
+        <state relative-caret-position="308">
+          <caret line="1831" column="55" selection-start-line="1831" selection-start-column="55" selection-end-line="1831" selection-end-column="55" />
         </state>
       </provider>
     </entry>

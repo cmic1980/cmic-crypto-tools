@@ -40,8 +40,7 @@
     <div>
       {{ message }}
     </div>
-    <div  v-for="item in klineListMessage"
-            :key="item">
+    <div v-for="item in klineListMessage" :key="item.id">
       {{ item }}
     </div>
   </div>
@@ -118,16 +117,22 @@ export default {
       klineListMessage: (state) => {
         let list = [];
         if (
-          state.contract.klineList1.length != 0 &&
-          state.contract.klineList2.length != 0
+          state.contract.expireList1.length != 0 &&
+          state.contract.expireList2.length != 0
         ) {
-          const l = state.contract.klineList1.length;
-
+          const l = state.contract.expireList1.length;
+    
           for (let i = 0; i < l; i++) {
-            let kline1 = state.contract.klineList1[i];
-            let kline2 = state.contract.klineList2[i];
-            let r = contractService.calculate(kline1, kline2);
-        
+            
+            let kline1 = state.contract.expireList1[i];
+            let kline2 = state.contract.expireList2[i];
+
+            let r = contractService.calculate(kline1, kline2, 7);
+           
+
+            let date = new Date()
+            date.setTime(kline1.id*1000)
+            r.id = date.toString()
             list.push(r);
           }
         }

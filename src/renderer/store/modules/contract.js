@@ -71,7 +71,7 @@ function getExpireList(klineList) {
         date.setTime(time);
         const day = date.getDay();
         const hours = date.getHours();
-        if (day == 4 && hours == 16) {
+        if (day == 5 && hours == 15) {
             const json = JSON.stringify(s);
             const expire = JSON.parse(json)
             expireList.push(expire)
@@ -85,6 +85,8 @@ function enhanceTfK(kline) {
     return type
 }
 
+const period = "60min";
+const size = 2000;
 
 // actions
 const actions = {
@@ -137,10 +139,10 @@ const actions = {
                     console.log(error);
                 });
 
-            market.getKline('60min', '2000', request.type1)
+            market.getKline(period, size, request.type1)
                 .then(function (response) {
                     const klineList = response.data.data;
-                    klineList.forEach(s => { s.name = request.type1; s.time = s.id*1000; s.price = s.close; })
+                    klineList.forEach(s => { s.name = request.type1; s.time = s.id * 1000; s.price = s.close; })
                     const expireList = getExpireList(klineList);
                     commit('setKlineList', { "type": 1, "id": request.type1, "klineList": klineList })
                     commit('setExpireList', { "type": 1, "id": request.type1, "expireList": expireList })
@@ -160,10 +162,10 @@ const actions = {
                 });
 
             // 获取到期价格
-            contract.getKline('60min', '2000', request.type2)
+            contract.getKline(period, size, request.type1)
                 .then(function (response) {
                     const klineList = response.data.data;
-                    klineList.forEach(s => { s.name = request.type1; s.time = s.id*1000; s.price = s.close; })
+                    klineList.forEach(s => { s.name = request.type1; s.time = s.id * 1000; s.price = s.close; })
                     const expireList = getExpireList(klineList);
                     commit('setKlineList', { "type": 1, "id": request.type1, "klineList": klineList })
                     commit('setExpireList', { "type": 1, "id": request.type1, "expireList": expireList })
@@ -185,10 +187,10 @@ const actions = {
             });
 
         // 获取到期价格
-        contract.getKline('60min', '2000', request.type2)
+        contract.getKline(period, size, request.type2)
             .then(function (response) {
                 const klineList = response.data.data;
-                klineList.forEach(s => { s.name = request.type1; s.time = s.id*1000; s.price = s.close; })
+                klineList.forEach(s => { s.name = request.type2; s.time = s.id * 1000; s.price = s.close; })
                 const expireList = getExpireList(klineList);
                 commit('setKlineList', { "type": 2, "id": request.type2, "klineList": klineList })
                 commit('setExpireList', { "type": 2, "id": request.type2, "expireList": expireList })
@@ -210,10 +212,12 @@ const mutations = {
         state["type" + data.type] = type
     },
     setExpireList(state, data) {
-        state["expireList" + data.type] = data.expireList
+        const expireList  = data.expireList.sort((s1,s2)=>{
+            return s1.id>s2.id
+        })
+        state["expireList" + data.type] = expireList
     },
     setKlineList(state, data) {
-        debugger
         state["klineList" + data.type] = data.klineList
     }
 }

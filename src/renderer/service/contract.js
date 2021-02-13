@@ -1,15 +1,18 @@
 export default {
-    calculate(t1, t2) {
+    calculate(t1, t2, days) {
         let result = {};
         if (
             t1.price != -1 && t2.price != -1
         ) {
+            let s = t2.price - t1.price;
             let grossProfit = (t2.price / t1.price - 1) * 100;
-            let days = parseInt(t2.time - t1.time) / 1000 / 60 / 60 / 24;
+            if (days == null) {
+                days = parseInt(t2.time - t1.time) / 1000 / 60 / 60 / 24;
+            }
             let netProfit = grossProfit - 0.04 - 0.015;
             let yearlyProfit = (netProfit * 365) / days;
             grossProfit = grossProfit + "%";
-            yearlyProfit = yearlyProfit+ "%";
+            yearlyProfit = yearlyProfit + "%";
 
             result = {
                 t1Name: t1.name,
@@ -19,6 +22,7 @@ export default {
                 grossProfit: grossProfit,
                 netProfit: netProfit,
                 yearlyProfit: yearlyProfit,
+                s:s
             };
 
         }
