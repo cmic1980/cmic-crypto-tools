@@ -12,6 +12,7 @@ export default {
             let netProfit = grossProfit - 0.04 - 0.015;
             let yearlyProfit = (netProfit * 365) / days;
             grossProfit = grossProfit + "%";
+            netProfit = netProfit + "%";
             yearlyProfit = yearlyProfit + "%";
 
             result = {
