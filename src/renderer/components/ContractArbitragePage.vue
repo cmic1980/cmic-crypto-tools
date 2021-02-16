@@ -276,6 +276,9 @@ export default {
             let type1 = klineDict1[key];
             let type2 = klineDict2[key];
             if (type1 != null && type2 != null) {
+              // contractService.setDeliveryTime(type1);
+              contractService.setDeliveryTime(type2);
+
               let item = contractService.calculate(type1, type2);
               item.id = id;
               let date = new Date();
@@ -285,8 +288,7 @@ export default {
             }
           });
         }
-
-        console.log(JSON.stringify(result));
+        console.log(JSON.stringify(result))
         return result;
       },
     }),

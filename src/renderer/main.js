@@ -13,8 +13,9 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 
-var voca = require('voca');
+let voca = require('voca');
 window.v = voca
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },
