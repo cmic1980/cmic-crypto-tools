@@ -15,7 +15,7 @@
             id="form"
           >
             <el-form-item label="品种">
-              <el-select v-model="data.type">
+              <el-select v-model="data.symbol">
                 <el-option
                   v-for="item in typeList"
                   :key="item.id"
@@ -39,8 +39,13 @@
                   </tr>
                 </thead>
                 <tr>
-                  <td rowspan="2">底分型->顶分型</td>
-                  <td rowspan="2">做多</td>
+                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 2 }">
+                    <div>底分型</div>
+                    <div v-show="data.weekType == 2">{{ data.weekDate }}</div>
+                  </td>
+                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 2 }">
+                    做多
+                  </td>
                   <td>底分型</td>
                   <td>做多</td>
                 </tr>
@@ -49,8 +54,13 @@
                   <td>做多平仓</td>
                 </tr>
                 <tr>
-                  <td rowspan="2">顶分型->底分型</td>
-                  <td rowspan="2">做空</td>
+                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 1 }">
+                    <div>顶分型</div>
+                    <div v-show="data.weekType == 1">{{ data.weekDate }}</div>
+                  </td>
+                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 1 }">
+                    做空
+                  </td>
                   <td>顶分型</td>
                   <td>做空</td>
                 </tr>
@@ -67,14 +77,16 @@
   </div>
 </template>
 <script>
-import stalkingStrategy from '@/strategy/stalking'
+import stalkingStrategy from "@/strategy/stalking";
 
 export default {
   name: "stalking-quantification-page",
   data() {
     return {
       data: {
-        type: "",
+        symbol: "",
+        weekType: 0,
+        weekDate: null,
       },
       typeList: [{ id: "btcusdt", name: "BTC/USDT" }],
       loading: false,
@@ -85,7 +97,13 @@ export default {
       this.$router.push("/");
     },
     go() {
-      stalkingStrategy.calculate(this.data.type)
+      let self = this;
+      let cb = function (result) {
+        self.data.weekType = result.weekType;
+        self.data.weekDate = result.weekDate;
+      };
+
+      stalkingStrategy.calculate(this.data.symbol, cb);
     },
   },
 };
@@ -102,5 +120,9 @@ export default {
 
 #table td {
   padding: 8px;
+}
+
+#table td.focus {
+  color: blue;
 }
 </style>
