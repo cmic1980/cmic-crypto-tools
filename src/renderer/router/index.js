@@ -23,6 +23,11 @@ export default new Router({
       path: '/contract/arbitrage',
       name: 'contract-arbitrage-page',
       component: require('@/components/ContractArbitragePage').default
+    },
+    {
+      path: '/contract/stalking',
+      name: 'stalking-quantification-page',
+      component: require('@/components/StalkingQuantification').default
     }
   ]
 })
