@@ -15,7 +15,7 @@
             id="form"
           >
             <el-form-item label="品种">
-              <el-select v-model="data.symbol">
+              <el-select v-model="symbol">
                 <el-option
                   v-for="item in typeList"
                   :key="item.id"
@@ -29,7 +29,7 @@
               <el-button type="primary" plain @click="go()">Go</el-button>
             </el-form-item>
             <el-form-item>
-              <table id="table" border="0">
+              <table id="table" border="1">
                 <thead>
                   <tr>
                     <th>周线</th>
@@ -39,26 +39,35 @@
                   </tr>
                 </thead>
                 <tr>
-                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 2 }">
+                  <td rowspan="2" v-bind:class="{ focus: weekType == 2 }">
                     <div>底分型</div>
-                    <div v-show="data.weekType == 2">{{ data.weekDate }}</div>
+                    <div v-show="weekType == 2">{{ weekDate }}</div>
                   </td>
-                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 2 }">
+                  <td rowspan="2" v-bind:class="{ focus: weekType == 2 }">
                     做多
                   </td>
-                  <td>底分型</td>
-                  <td>做多</td>
-                </tr>
-                <tr>
-                  <td>顶分型</td>
-                  <td>做多平仓</td>
-                </tr>
-                <tr>
-                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 1 }">
-                    <div>顶分型</div>
-                    <div v-show="data.weekType == 1">{{ data.weekDate }}</div>
+                  <td v-bind:class="{ focus: weekType == 2 && dayType == 2 }">
+                    <div>底分型</div>
+                    <div v-show="weekType == 2 && dayType == 2">{{ dayDate }}</div>
                   </td>
-                  <td rowspan="2" v-bind:class="{ focus: data.weekType == 1 }">
+                  <td v-bind:class="{ focus: weekType == 2 && dayType == 2 }">
+                    做多
+                  </td>
+                </tr>
+                <tr>
+                  <td v-bind:class="{ focus: weekType == 2 && dayType == 1 }">
+                    顶分型
+                  </td>
+                  <td v-bind:class="{ focus: weekType == 2 && dayType == 1 }">
+                    做多平仓
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="2" v-bind:class="{ focus: weekType == 1 }">
+                    <div>顶分型</div>
+                    <div v-show="weekType == 1">{{ weekDate }}</div>
+                  </td>
+                  <td rowspan="2" v-bind:class="{ focus: weekType == 1 }">
                     做空
                   </td>
                   <td>顶分型</td>
@@ -77,17 +86,15 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+
 import stalkingStrategy from "@/strategy/stalking";
 
 export default {
   name: "stalking-quantification-page",
   data() {
     return {
-      data: {
-        symbol: "",
-        weekType: 0,
-        weekDate: null,
-      },
+      symbol: "",
       typeList: [{ id: "btcusdt", name: "BTC/USDT" }],
       loading: false,
     };
@@ -97,14 +104,17 @@ export default {
       this.$router.push("/");
     },
     go() {
-      let self = this;
-      let cb = function (result) {
-        self.data.weekType = result.weekType;
-        self.data.weekDate = result.weekDate;
-      };
-
-      stalkingStrategy.calculate(this.data.symbol, cb);
+      const request = { symbol: this.symbol };
+      this.$store.dispatch("stalking/calculate", request);
     },
+  },
+  computed: {
+    ...mapState({
+      weekType: (state) => state.stalking.weekType,
+      weekDate: (state) => state.stalking.weekDate,
+      dayType: (state) => state.stalking.dayType,
+      dayDate: (state) => state.stalking.dayDate,
+    }),
   },
 };
 </script>

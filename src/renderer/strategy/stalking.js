@@ -48,9 +48,9 @@ function combineKline(klineList) {
     return newList;
 }
 
-function calculateType(newList) {
+function calculateType(newList, period) {
     // 2.1.2 顶底分型判断
-    let weekType = 0; // 0 未有分型， 1 顶分型， 2 底分型
+    let type = 0; // 0 未有分型， 1 顶分型， 2 底分型
     let weekId = 0;
     for (let i = 2; i < newList.length - 1; i++) {
         let left = newList[i - 1];
@@ -58,24 +58,24 @@ function calculateType(newList) {
         let right = newList[i + 1];
 
         // 顶分型判断
-        if (weekType != 1) {
+        if (type != 1) {
             // 如果有某一根 K 线的高点都高于左右两侧 K 线的高点
             if (p.high > left.high && p.high > right.high) {
                 // 并且这根 K 线的低点也高于左右两侧的 K 线的低点
                 if (p.low > left.low && p.low > right.low) {
-                    weekType = 1;
+                    type = 1;
                     weekId = p.id;
                 }
             }
         }
 
         // 底分型判断
-        if (weekType != 2) {
+        if (type != 2) {
             // 如果有某一根 K 线的高点都低于左右两侧 K 线的高点
             if (p.high < left.high && p.high < right.high) {
                 // 并且这根 K 线的低点也低于左右两侧的 K 线的低点
                 if (p.low < left.low && p.low < right.low) {
-                    weekType = 2;
+                    type = 2;
                     weekId = p.id;
 
 
@@ -88,7 +88,7 @@ function calculateType(newList) {
     date.setTime(weekId * 1000)
     let xdate = new XDate(date)
 
-    let result = { "weekDate": xdate.toString("yyyy-MM-dd"), "weekType": weekType }
+    let result = { "date": xdate.toString("yyyy-MM-dd"), "type": type, "period": period }
     return result;
 }
 
@@ -103,7 +103,25 @@ export default {
                 });
                 // 2.1.1 K 线合并
                 let newList = combineKline(klineList);
-                let result = calculateType(newList);
+                let result = calculateType(newList, "week");
+                cb(result)
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+        market.getKline("1day", 2000, symbol, cb)
+            .then(function (response) {
+                let klineList = response.data.data;
+
+                klineList = klineList.sort((s1, s2) => {
+                    return s1.id - s2.id;
+                });
+                // 2.1.1 K 线合并
+                let newList = combineKline(klineList);
+                let result = calculateType(newList, "day");
                 cb(result)
 
             })
@@ -111,6 +129,7 @@ export default {
                 console.log(error);
             });
     }
+
 }
 
 
