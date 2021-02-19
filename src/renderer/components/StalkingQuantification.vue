@@ -15,7 +15,7 @@
             id="form"
           >
             <el-form-item label="品种">
-              <el-select v-model="symbol">
+              <el-select v-model="data.symbol">
                 <el-option
                   v-for="item in typeList"
                   :key="item.id"
@@ -39,7 +39,7 @@
                   </tr>
                 </thead>
                 <tr>
-                  <td rowspan="2" v-bind:class="{ focus: weekType == 2 }">
+                  <td rowspan="2" v-bind:class="{ focus: weekType == 2 }" >
                     <div>底分型</div>
                     <div v-show="weekType == 2">{{ weekDate }}</div>
                   </td>
@@ -94,7 +94,8 @@ export default {
   name: "stalking-quantification-page",
   data() {
     return {
-      symbol: "",
+      data:{   symbol: ""},
+   
       typeList: [{ id: "btcusdt", name: "BTC/USDT" }],
       loading: false,
     };
@@ -104,7 +105,7 @@ export default {
       this.$router.push("/");
     },
     go() {
-      const request = { symbol: this.symbol };
+      const request = { symbol: this.data.symbol };
       this.$store.dispatch("stalking/calculate", request);
     },
   },
@@ -130,6 +131,7 @@ export default {
 
 #table td {
   padding: 8px;
+  vertical-align: top;
 }
 
 #table td.focus {
