@@ -94,8 +94,6 @@ const actions = {
         contract.getInfo()
             .then(function (response) {
                 let data = response.data.data;
-
-
                 let typeList = [];
                 // distinct symbol
                 data.forEach(item => {
