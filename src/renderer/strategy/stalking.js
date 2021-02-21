@@ -1,4 +1,3 @@
-import market from '@/api/huobi/market'
 let XDate = require('xdate');
 
 function combineKline(klineList) {
@@ -48,10 +47,11 @@ function combineKline(klineList) {
     return newList;
 }
 
-function calculateType(newList, period) {
+function calculatePointList(newList) {
+    let pointList = [] // 0 未有分型， 1 卖单， 2 买单
+
     // 2.1.2 顶底分型判断
     let type = 0; // 0 未有分型， 1 顶分型， 2 底分型
-    let weekId = 0;
     for (let i = 2; i < newList.length - 1; i++) {
         let left = newList[i - 1];
         let p = newList[i];
@@ -64,7 +64,14 @@ function calculateType(newList, period) {
                 // 并且这根 K 线的低点也高于左右两侧的 K 线的低点
                 if (p.low > left.low && p.low > right.low) {
                     type = 1;
-                    weekId = p.id;
+                    
+                    let date = new Date();
+                    date.setTime(p.id * 1000)
+                    let xdate = new XDate(date)
+
+                    let point = { "id": p.id, "date": xdate.toString("yyyy-MM-dd"), "price": right.low, "type":1 };
+
+                    pointList.push(point)
                 }
             }
         }
@@ -76,60 +83,31 @@ function calculateType(newList, period) {
                 // 并且这根 K 线的低点也低于左右两侧的 K 线的低点
                 if (p.low < left.low && p.low < right.low) {
                     type = 2;
-                    weekId = p.id;
 
+                    let date = new Date();
+                    date.setTime(p.id * 1000)
+                    let xdate = new XDate(date)
 
+                    let point = { "id": p.id, "date": xdate.toString("yyyy-MM-dd"), "price": right.high, "type":2 };
+                    pointList.push(point)
                 }
             }
         }
     }
-
-    let date = new Date();
-    date.setTime(weekId * 1000)
-    let xdate = new XDate(date)
-
-    let result = { "date": xdate.toString("yyyy-MM-dd"), "type": type, "period": period }
-    return result;
+   return pointList;
 }
 
 export default {
-    calculate(symbol, cb) {
-        market.getKline("1week", 2000, symbol, cb)
-            .then(function (response) {
-                let klineList = response.data.data;
+    calculate(klineList) {
+        klineList = klineList.sort((s1, s2) => {
+            return s1.id - s2.id;
+        });
 
-                klineList = klineList.sort((s1, s2) => {
-                    return s1.id - s2.id;
-                });
-                // 2.1.1 K 线合并
-                let newList = combineKline(klineList);
-                let result = calculateType(newList, "week");
-                cb(result)
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
-        market.getKline("1day", 2000, symbol, cb)
-            .then(function (response) {
-                let klineList = response.data.data;
-
-                klineList = klineList.sort((s1, s2) => {
-                    return s1.id - s2.id;
-                });
-                // 2.1.1 K 线合并
-                let newList = combineKline(klineList);
-                let result = calculateType(newList, "day");
-                cb(result)
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        // 2.1.1 K 线合并
+        let newList = combineKline(klineList);
+        let result = calculatePointList(newList);
+        return result;
     }
-
 }
 
 
