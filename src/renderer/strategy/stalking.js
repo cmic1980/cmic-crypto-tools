@@ -69,7 +69,7 @@ function calculatePointList(newList) {
                     date.setTime(p.id * 1000)
                     let xdate = new XDate(date)
 
-                    let point = { "id": p.id, "date": xdate.toString("yyyy-MM-dd"), "price": right.low, "type":1 };
+                    let point = { "id": p.id, "date": xdate, "price": right.low, "type":1 };
 
                     pointList.push(point)
                 }
@@ -88,7 +88,7 @@ function calculatePointList(newList) {
                     date.setTime(p.id * 1000)
                     let xdate = new XDate(date)
 
-                    let point = { "id": p.id, "date": xdate.toString("yyyy-MM-dd"), "price": right.high, "type":2 };
+                    let point = { "id": p.id, "date": xdate, "price": right.high, "type":2 };
                     pointList.push(point)
                 }
             }
