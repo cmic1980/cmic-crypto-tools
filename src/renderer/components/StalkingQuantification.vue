@@ -6,7 +6,7 @@
         </el-page-header>
       </div>
       <el-row>
-        <el-col :span="12">
+        <el-col :span="18">
           <el-form
             :model="data"
             label-position="left"
@@ -26,7 +26,9 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" plain @click="go()">Go</el-button>
+              <el-button type="primary" plain @click="calculate()"
+                >计算分型</el-button
+              >
             </el-form-item>
             <el-form-item>
               <table id="table" border="1">
@@ -39,7 +41,7 @@
                   </tr>
                 </thead>
                 <tr>
-                  <td rowspan="2" v-bind:class="{ focus: weekType == 2 }" >
+                  <td rowspan="2" v-bind:class="{ focus: weekType == 2 }">
                     <div>底分型</div>
                     <div v-show="weekType == 2">{{ weekDate }}</div>
                   </td>
@@ -47,8 +49,10 @@
                     做多
                   </td>
                   <td v-bind:class="{ focus: weekType == 2 && dayType == 2 }">
-                    <div>底分型</div>
-                    <div v-show="weekType == 2 && dayType == 2">{{ dayDate }}</div>
+                    <div style="">底分型</div>
+                    <div v-show="weekType == 2 && dayType == 2">
+                      {{ dayDate }}
+                    </div>
                   </td>
                   <td v-bind:class="{ focus: weekType == 2 && dayType == 2 }">
                     做多
@@ -79,6 +83,11 @@
                 </tr>
               </table>
             </el-form-item>
+            <el-form-item>
+              <el-button type="primary" plain @click="backtest()"
+                >回测</el-button
+              >
+            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -94,8 +103,8 @@ export default {
   name: "stalking-quantification-page",
   data() {
     return {
-      data:{   symbol: ""},
-   
+      data: { symbol: "" },
+
       typeList: [{ id: "btcusdt", name: "BTC/USDT" }],
       loading: false,
     };
@@ -104,9 +113,13 @@ export default {
     back() {
       this.$router.push("/");
     },
-    go() {
+    calculate() {
       const request = { symbol: this.data.symbol };
       this.$store.dispatch("stalking/calculate", request);
+    },
+    backtest() {
+      const request = { symbol: this.data.symbol };
+      this.$store.dispatch("stalking/backtest", request);
     },
   },
   computed: {
@@ -132,6 +145,12 @@ export default {
 #table td {
   padding: 8px;
   vertical-align: top;
+  width: 25%;
+}
+
+#table td div {
+  float: left;
+  margin-right: 10px;
 }
 
 #table td.focus {
