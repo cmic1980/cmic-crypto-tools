@@ -22,7 +22,7 @@ let supportSymbolSet = new Set()
 supportSymbolSet.add("BTC")
 supportSymbolSet.add("ETH")
 supportSymbolSet.add("EOS")
-
+supportSymbolSet.add("FIL")
 
 function getTypeAbbr(contractType) {
     let abbr = "";
@@ -100,11 +100,19 @@ const actions = {
                     if (supportSymbolSet.has(item.symbol)) {
                         // 期货当周前加上现货
                         if (getTypeAbbr(item.contract_type) == "CW") {
+                            // 现货
                             let id = v.sprintf('%susdt', v.lowerCase(item.symbol));
                             let name = v.sprintf('%s（现货）', item.symbol);
-                            var date = new Date();
+                            let date = new Date();
 
                             let type = { "id": id, "name": name, "symbol": item.symbol, "time": date.getTime() }
+                            typeList.push(type)
+
+                            // 指数
+                            id = v.sprintf('%s', v.lowerCase(item.symbol));
+                            name = v.sprintf('%s（指数）', item.symbol);
+                            date = new Date();
+                            type = { "id": id, "name": name, "symbol": item.symbol, "time": date.getTime() }
                             typeList.push(type)
                         }
 
@@ -124,7 +132,6 @@ const actions = {
     },
 
     realtimeCompare({ commit }, request) {
-
         if (v.endsWith(request.type1, 'usdt')) // usdt结尾现货 
         {
             market.getDetail(request.type1)
@@ -137,6 +144,20 @@ const actions = {
                     console.log(error);
                     request.cb();
                 });
+        }
+        else if (request.type1.length == 3) // usdt结尾现货 
+        {
+            contract.getIndex(request.type1)
+                .then(function (response) {
+                    let tick = response.data.data[0];
+                    commit('setPrice', { "type": 1, "id": request.type1, "price": tick.index_price })
+                    request.cb();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    request.cb();
+                });
+
         } else {
             contract.getDetail(request.type1)
                 .then(function (response) {
@@ -150,17 +171,31 @@ const actions = {
                 });
         }
 
+        if (request.type2.length == 3) {
+            contract.getIndex(request.type2)
+                .then(function (response) {
+                    let tick = response.data.data[0];
+                    commit('setPrice', { "type": 2, "id": request.type2, "price": tick.index_price })
+                    request.cb();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    request.cb();
+                });
 
-        contract.getDetail(request.type2)
-            .then(function (response) {
-                let tick = response.data.tick;
-                commit('setPrice', { "type": 2, "id": request.type2, "price": tick.close })
-                request.cb();
-            })
-            .catch(function (error) {
-                console.log(error);
-                request.cb();
-            });
+        } else {
+            contract.getDetail(request.type2)
+                .then(function (response) {
+                    let tick = response.data.tick;
+                    commit('setPrice', { "type": 2, "id": request.type2, "price": tick.close })
+                    request.cb();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    request.cb();
+                });
+        }
+
     },
     klineCompare({ commit }, request) {
         if (v.endsWith(request.type1, 'usdt')) // usdt结尾现货 
