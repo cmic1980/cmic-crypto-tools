@@ -100,6 +100,7 @@ const actions = {
                     if (supportSymbolSet.has(item.symbol)) {
                         // 期货当周前加上现货
                         if (getTypeAbbr(item.contract_type) == "CW") {
+                            /*
                             // 现货
                             let id = v.sprintf('%susdt', v.lowerCase(item.symbol));
                             let name = v.sprintf('%s（现货）', item.symbol);
@@ -107,12 +108,12 @@ const actions = {
 
                             let type = { "id": id, "name": name, "symbol": item.symbol, "time": date.getTime() }
                             typeList.push(type)
-
+                            */
                             // 指数
-                            id = v.sprintf('%s', v.lowerCase(item.symbol));
-                            name = v.sprintf('%s（指数）', item.symbol);
-                            date = new Date();
-                            type = { "id": id, "name": name, "symbol": item.symbol, "time": date.getTime() }
+                            let id = v.sprintf('%s', v.lowerCase(item.symbol));
+                            let name = v.sprintf('%s（指数）', item.symbol);
+                            let date = new Date();
+                            let type = { "id": id, "name": name, "symbol": item.symbol, "time": date.getTime() }
                             typeList.push(type)
                         }
 

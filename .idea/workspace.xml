@@ -19,11 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="">
+    <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="支持指数查询">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/api/huobi/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/api/huobi/contract.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +41,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -73,7 +71,7 @@
       <workItem from="1613134128018" duration="599000" />
       <workItem from="1613233317473" duration="3331000" />
       <workItem from="1613481349629" duration="5448000" />
-      <workItem from="1614235588915" duration="1398000" />
+      <workItem from="1614235588915" duration="2166000" />
     </task>
     <task id="LOCAL-00001" summary="store">
       <created>1611205619453</created>
@@ -222,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613894187926</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="支持指数查询">
+      <created>1614237733374</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1614237733374</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,13 +289,14 @@
     <MESSAGE value="store" />
     <MESSAGE value="symbol and contract list" />
     <MESSAGE value="缠论量化交易工具" />
-    <option name="LAST_COMMIT_MESSAGE" value="缠论量化交易工具" />
+    <MESSAGE value="支持指数查询" />
+    <option name="LAST_COMMIT_MESSAGE" value="支持指数查询" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1614237695762">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1309" y="464" width="1736" height="856" key="DiffContextDialog" timestamp="1614304029760">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1614237695762" />
+    <state x="-1309" y="464" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1614304029760" />
     <state x="184" y="85" key="MergeDialog" timestamp="1614236596009">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -303,6 +309,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="727" y="234" key="VCS.ChangeListViewerDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1613957794295" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1614237734615">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1614237734615" />
     <state x="754" y="432" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614236548669">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
