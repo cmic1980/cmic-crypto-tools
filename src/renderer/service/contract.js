@@ -91,10 +91,14 @@ export default {
             }
             let netProfit = grossProfit - 0.04 - 0.015;
             let yearlyProfit = (netProfit * 365) / days;
+            let dailyProfit = netProfit / days;
+
             grossProfit = grossProfit.toFixed(3) + "%";
             netProfit = netProfit.toFixed(3) + "%";
             yearlyProfit = yearlyProfit.toFixed(3) + "%";
-
+            dailyProfit = dailyProfit.toFixed(3) + "%";
+            days = days.toFixed(2) + " 天";
+            
             result = {
                 t1Name: t1.name,
                 t1Price: t1.price,
@@ -103,6 +107,8 @@ export default {
                 grossProfit: grossProfit,
                 netProfit: netProfit,
                 yearlyProfit: yearlyProfit,
+                days: days,
+                dailyProfit: dailyProfit,
                 s: s.toFixed(2)
             };
 

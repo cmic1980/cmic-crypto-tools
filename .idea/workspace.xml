@@ -20,8 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e35634f-1044-4495-98f6-50fdafc1020d" name="Default Changelist" comment="支持指数查询">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer/store/modules/contract.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +71,8 @@
       <workItem from="1613134128018" duration="599000" />
       <workItem from="1613233317473" duration="3331000" />
       <workItem from="1613481349629" duration="5448000" />
-      <workItem from="1614235588915" duration="2166000" />
+      <workItem from="1614235588915" duration="2227000" />
+      <workItem from="1614304300539" duration="2800000" />
     </task>
     <task id="LOCAL-00001" summary="store">
       <created>1611205619453</created>
@@ -227,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614237733374</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="支持指数查询">
+      <created>1614304038370</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1614304038371</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,6 +301,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="支持指数查询" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="842" y="381" key="#Notifications" timestamp="1614304068421">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="842" y="381" key="#Notifications/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1614304068421" />
     <state x="-1309" y="464" width="1736" height="856" key="DiffContextDialog" timestamp="1614304029760">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -309,10 +321,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="727" y="234" key="VCS.ChangeListViewerDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1613957794295" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1614237734615">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1614304314281">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1614237734615" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1614304314281" />
     <state x="754" y="432" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614236548669">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

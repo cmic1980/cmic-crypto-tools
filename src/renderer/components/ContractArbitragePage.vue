@@ -48,6 +48,8 @@
                 <li>{{ realtimeResult.l4 }}</li>
                 <li>{{ realtimeResult.l5 }}</li>
                 <li>{{ realtimeResult.l6 }}</li>
+                <li>{{ realtimeResult.l7 }}</li>
+                <li>{{ realtimeResult.l8 }}</li>
               </ul>
             </el-form-item>
           </el-form>
@@ -238,7 +240,9 @@ export default {
           result.l3 = v.sprintf("3. 差价: %s", item.s);
           result.l4 = v.sprintf("4. 毛利润: %s", item.grossProfit);
           result.l5 = v.sprintf("5. 到期净利润: %s", item.netProfit);
-          result.l6 = v.sprintf("6. 年化到期净利润: %s", item.yearlyProfit);
+          result.l6 = v.sprintf("6. 到期天数: %s", item.days);
+          result.l7 = v.sprintf("7. 每天平均利润: %s", item.dailyProfit);
+          result.l8 = v.sprintf("8. 年化到期净利润: %s", item.yearlyProfit);
           result.show = true;
         }
         return result;
@@ -288,7 +292,7 @@ export default {
             }
           });
         }
-        console.log(JSON.stringify(result))
+        console.log(JSON.stringify(result));
         return result;
       },
     }),
